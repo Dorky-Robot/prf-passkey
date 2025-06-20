@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAuthn PRF Library Demo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .output {
+            background: #1e1e1e;
+            color: #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+        
+        .error {
+            color: #ff6b6b;
+        }
+        
+        .success {
+            color: #51cf66;
+        }
+        
+        .info {
+            color: #74c0fc;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 WebAuthn PRF Library Demo</h1>
+    
+    <p>This demo showcases the WebAuthn PRF (Pseudo-Random Function) library for deterministic key derivation using passkeys.</p>
+    
+    <div class="container">
+        <h2>Basic Example</h2>
+        <p>Register a passkey and derive a cryptographic key:</p>
+        <button onclick="runBasicDemo()">Run Basic Demo</button>
+        <div id="basicOutput" class="output"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Advanced Example</h2>
+        <p>Register once and derive multiple keys for different purposes:</p>
+        <button onclick="runAdvancedDemo()">Run Advanced Demo</button>
+        <div id="advancedOutput" class="output"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Error Handling Example</h2>
+        <p>Demonstrate graceful error handling with monadic patterns:</p>
+        <button onclick="runErrorDemo()">Run Error Demo</button>
+        <div id="errorOutput" class="output"></div>
+    </div>
+    
+    <script type="module">
+        import {
+            registerPasskey,
+            authenticateAndDeriveKey,
+            deriveKeyFromRegistration,
+            textToSalt,
+            randomChallenge,
+            randomUserId
+        } from '../dist/index.esm.js';
+        
+        // Utility to log to specific output div
+        function logToOutput(outputId, message, type = 'info') {
+            const output = document.getElementById(outputId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            output.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // Basic demo
+        window.runBasicDemo = async function() {
+            const output = document.getElementById('basicOutput');
+            output.innerHTML = '';
+            
+            logToOutput('basicOutput', '🔐 Starting basic WebAuthn PRF demo...');
+            
+            const config = {
+                rpName: 'PRF Demo',
+                rpId: 'localhost',
+                userVerification: 'required'
+            };
+            
+            const userId = randomUserId();
+            const userName = 'demo@example.com';
+            const userDisplayName = 'Demo User';
+            const salt = textToSalt('demo-encryption-key-v1');
+            
+            logToOutput('basicOutput', '📝 Registering passkey...');
+            
+            try {
+                const registrationResult = await registerPasskey(config, {
+                    userId,
+                    userName,
+                    userDisplayName,
+                    challenge: randomChallenge(),
+                    salt
+                })();
+                
+                if (registrationResult.isErr()) {
+                    logToOutput('basicOutput', `❌ Registration failed: ${registrationResult.error.message}`, 'error');
+                    return;
+                }
+                
+                const result = registrationResult.value;
+                logToOutput('basicOutput', '✅ Registration successful!', 'success');
+                logToOutput('basicOutput', `Credential ID: ${result.encodedId}`);
+                
+                if (result.derivedKey) {
+                    logToOutput('basicOutput', '🔑 PRF key derived during registration:', 'success');
+                    logToOutput('basicOutput', `Key: ${result.keyHex}`);
+                } else {
+                    logToOutput('basicOutput', '⚠️ PRF key not available during registration');
+                }
+                
+            } catch (error) {
+                logToOutput('basicOutput', `❌ Unexpected error: ${error.message}`, 'error');
+            }
+        };
+        
+        // Advanced demo
+        window.runAdvancedDemo = async function() {
+            const output = document.getElementById('advancedOutput');
+            output.innerHTML = '';
+            
+            logToOutput('advancedOutput', '🚀 Starting advanced WebAuthn PRF demo...');
+            
+            const config = {
+                rpName: 'Advanced PRF Demo',
+                rpId: 'localhost',
+                userVerification: 'required'
+            };
+            
+            const salts = {
+                encryption: textToSalt('encryption-key-v1'),
+                signing: textToSalt('signing-key-v1')
+            };
+            
+            const userId = randomUserId();
+            const userName = 'advanced@example.com';
+            const userDisplayName = 'Advanced User';
+            
+            logToOutput('advancedOutput', '🔐 Registering and deriving primary key...');
+            
+            try {
+                const result = await deriveKeyFromRegistration(
+                    config,
+                    userId,
+                    userName,
+                    userDisplayName,
+                    salts.encryption
+                )();
+                
+                if (result.isErr()) {
+                    logToOutput('advancedOutput', `❌ Setup failed: ${result.error.message}`, 'error');
+                    return;
+                }
+                
+                const setup = result.value;
+                logToOutput('advancedOutput', '✅ Primary key setup complete!', 'success');
+                logToOutput('advancedOutput', `Credential ID: ${setup.registration.encodedId}`);
+                
+                if (setup.derivedKey) {
+                    logToOutput('advancedOutput', `🔑 Encryption Key: ${setup.derivedKey.keyHex}`, 'success');
+                }
+                
+                logToOutput('advancedOutput', '🔐 Deriving signing key...');
+                
+                const credentialId = new Uint8Array(setup.registration.credentialId);
+                
+                const signingResult = await authenticateAndDeriveKey(config, {
+                    credentialId,
+                    challenge: randomChallenge(),
+                    salt: salts.signing
+                })();
+                
+                if (signingResult.isErr()) {
+                    logToOutput('advancedOutput', `❌ Signing key derivation failed: ${signingResult.error.message}`, 'error');
+                    return;
+                }
+                
+                logToOutput('advancedOutput', `🔑 Signing Key: ${signingResult.value.keyHex}`, 'success');
+                logToOutput('advancedOutput', '🎉 Advanced demo complete! Two different keys derived from same passkey.', 'success');
+                
+            } catch (error) {
+                logToOutput('advancedOutput', `❌ Unexpected error: ${error.message}`, 'error');
+            }
+        };
+        
+        // Error handling demo
+        window.runErrorDemo = async function() {
+            const output = document.getElementById('errorOutput');
+            output.innerHTML = '';
+            
+            logToOutput('errorOutput', '⚠️ Starting error handling demo...');
+            logToOutput('errorOutput', 'This demo intentionally triggers errors to show graceful handling.');
+            
+            const config = {
+                rpName: 'Error Demo',
+                rpId: 'localhost'
+            };
+            
+            // Try to authenticate with invalid credential
+            const invalidCredentialId = new Uint8Array([1, 2, 3, 4, 5]);
+            
+            logToOutput('errorOutput', '🔐 Attempting authentication with invalid credential...');
+            
+            try {
+                const result = await authenticateAndDeriveKey(config, {
+                    credentialId: invalidCredentialId,
+                    challenge: randomChallenge(),
+                    salt: textToSalt('test-salt')
+                })();
+                
+                if (result.isOk()) {
+                    logToOutput('errorOutput', '❌ Unexpected success - this should not happen!', 'error');
+                } else {
+                    logToOutput('errorOutput', `✅ Error handled gracefully: ${result.error.message}`, 'success');
+                    logToOutput('errorOutput', '✅ Neverthrow error handling prevented application crash', 'success');
+                }
+                
+            } catch (error) {
+                logToOutput('errorOutput', `❌ Unexpected exception: ${error.message}`, 'error');
+            }
+        };
+        
+        // Check WebAuthn support
+        if (!window.PublicKeyCredential) {
+            document.body.innerHTML = '<h1>❌ WebAuthn not supported</h1><p>This demo requires a modern browser with WebAuthn support.</p>';
+        } else {
+            console.log('WebAuthn PRF Library Demo loaded successfully');
+        }
+    </script>
+</body>
+</html>
