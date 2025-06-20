@@ -1,12 +1,12 @@
-# WebAuthn PRF Library
+# PRF Passkey
 
-[![CI/CD](https://github.com/your-username/webauthn-prf/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/webauthn-prf/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/your-username/webauthn-prf/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/webauthn-prf)
-[![npm version](https://badge.fury.io/js/webauthn-prf.svg)](https://badge.fury.io/js/webauthn-prf)
-[![npm downloads](https://img.shields.io/npm/dm/webauthn-prf.svg)](https://www.npmjs.com/package/webauthn-prf)
+[![CI/CD](https://github.com/your-username/prf-passkey/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/prf-passkey/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/your-username/prf-passkey/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/prf-passkey)
+[![npm version](https://badge.fury.io/js/prf-passkey.svg)](https://badge.fury.io/js/prf-passkey)
+[![npm downloads](https://img.shields.io/npm/dm/prf-passkey.svg)](https://www.npmjs.com/package/prf-passkey)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Security: CodeQL](https://github.com/your-username/webauthn-prf/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-username/webauthn-prf/security/code-scanning)
+[![Security: CodeQL](https://github.com/your-username/prf-passkey/actions/workflows/codeql.yml/badge.svg)](https://github.com/your-username/prf-passkey/security/code-scanning)
 
 A functional TypeScript library for WebAuthn Pseudo-Random Function (PRF) extension with robust error handling using neverthrow for deterministic key derivation using passkeys.
 
@@ -22,7 +22,7 @@ A functional TypeScript library for WebAuthn Pseudo-Random Function (PRF) extens
 ## Installation
 
 ```bash
-npm install webauthn-prf
+npm install prf-passkey
 ```
 
 ## Quick Start
@@ -34,7 +34,7 @@ import {
   textToSalt,
   randomChallenge,
   randomUserId
-} from 'webauthn-prf';
+} from 'prf-passkey';
 
 // Configure your app
 const config = {
@@ -138,7 +138,7 @@ interface AuthenticationResult {
 ### Get Pseudorandom Value from New Passkey
 
 ```typescript
-import { registerPasskey, textToSalt, randomChallenge, randomUserId } from 'webauthn-prf';
+import { registerPasskey, textToSalt, randomChallenge, randomUserId } from 'prf-passkey';
 
 const config = { rpName: 'My App', rpId: 'localhost' };
 
@@ -160,7 +160,7 @@ if (result.isOk()) {
 ### Get Pseudorandom Value from Existing Passkey
 
 ```typescript
-import { authenticateAndDeriveKey, base64urlToUint8Array } from 'webauthn-prf';
+import { authenticateAndDeriveKey, base64urlToUint8Array } from 'prf-passkey';
 
 // Retrieve stored credential ID
 const encodedCredentialId = localStorage.getItem('credentialId');
