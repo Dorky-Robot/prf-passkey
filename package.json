@@ -46,12 +46,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/prf-passkey.git"
+    "url": "git+https://github.com/Dorky-Robot/prf-passkey.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/prf-passkey/issues"
+    "url": "https://github.com/Dorky-Robot/prf-passkey/issues"
   },
-  "homepage": "https://github.com/your-username/prf-passkey#readme",
+  "homepage": "https://github.com/Dorky-Robot/prf-passkey#readme",
   "dependencies": {
     "@simplewebauthn/browser": "^13.1.0",
     "neverthrow": "^8.2.0",
