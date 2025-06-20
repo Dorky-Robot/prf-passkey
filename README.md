@@ -267,4 +267,4 @@ Open `http://localhost:8000/examples/browser-demo.html`
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License - see [LICENSE.md](LICENSE.md) for details.
