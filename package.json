@@ -1,5 +1,5 @@
 {
-  "name": "webauthn-prf",
+  "name": "prf-passkey",
   "version": "1.0.0",
   "description": "A functional library for WebAuthn Pseudo-Random Function (PRF) key derivation with monadic patterns",
   "main": "dist/index.js",
@@ -46,12 +46,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/webauthn-prf.git"
+    "url": "git+https://github.com/your-username/prf-passkey.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/webauthn-prf/issues"
+    "url": "https://github.com/your-username/prf-passkey/issues"
   },
-  "homepage": "https://github.com/your-username/webauthn-prf#readme",
+  "homepage": "https://github.com/your-username/prf-passkey#readme",
   "dependencies": {
     "@simplewebauthn/browser": "^13.1.0",
     "neverthrow": "^8.2.0",
