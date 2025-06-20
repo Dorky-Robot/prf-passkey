@@ -37,6 +37,20 @@ The PRF extension allows generating consistent cryptographic material from a pas
 4. Click "Register Passkey" to create a new passkey with PRF support
 5. Click "Derive Key" to generate a deterministic key using the PRF extension
 
+## Sample Output
+
+When successful, you'll see output like this:
+
+```
+✅ Passkey registered
+Credential ID (Base64URL): pcyAh3EAHzcPjt90GqZmRA
+Salt used: kita-health-root-v1
+✅ Deterministic key derived:
+8f9804f315059cab9b3948e1b0d0180929e8afcf771078b884ac31ce0d520bcf
+✅ Deterministic key derived:
+8f9804f315059cab9b3948e1b0d0180929e8afcf771078b884ac31ce0d520bcf
+```
+
 ## Security Notes
 
 - Keys are derived using the salt "kita-health-root-v1"

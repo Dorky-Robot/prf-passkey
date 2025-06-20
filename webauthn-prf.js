@@ -105,9 +105,12 @@ const registerPasskey = async (outputElement) => {
     saveCredentialId(result.encodedId);
     logOutput(outputElement, "✅ Passkey registered");
     logOutput(outputElement, "Credential ID (Base64URL):", result.encodedId);
+    logOutput(outputElement, "Salt used:", "kita-health-root-v1");
     if (result.keyHex) {
       logOutput(outputElement, "✅ Deterministic key derived:");
       logOutput(outputElement, result.keyHex);
+    } else {
+      logOutput(outputElement, "⚠️ PRF extension not supported - no key derived");
     }
   } catch (err) {
     logOutput(outputElement, "❌ Registration failed:", err.message);
