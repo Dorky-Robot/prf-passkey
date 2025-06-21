@@ -2,27 +2,35 @@
 
 [![CI/CD](https://github.com/Dorky-Robot/prf-passkey/actions/workflows/ci.yml/badge.svg)](https://github.com/Dorky-Robot/prf-passkey/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Dorky-Robot/prf-passkey/branch/main/graph/badge.svg)](https://codecov.io/gh/Dorky-Robot/prf-passkey)
-[![npm version](https://badge.fury.io/js/prf-passkey.svg)](https://badge.fury.io/js/prf-passkey)
+[![npm version](https://badge.fury.io/js/prf-passkey.svg)](https://www.npmjs.com/package/prf-passkey)
 [![npm downloads](https://img.shields.io/npm/dm/prf-passkey.svg)](https://www.npmjs.com/package/prf-passkey)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Security: CodeQL](https://github.com/Dorky-Robot/prf-passkey/actions/workflows/codeql.yml/badge.svg)](https://github.com/Dorky-Robot/prf-passkey/security/code-scanning)
 
-A functional TypeScript library for WebAuthn Pseudo-Random Function (PRF) extension with robust error handling using neverthrow for deterministic key derivation using passkeys.
+A functional TypeScript library for WebAuthn Pseudo-Random Function (PRF) extension with robust error handling. Provides deterministic key derivation from passkeys using monadic error handling with neverthrow.
 
 ## Features
 
 - 🔐 **Deterministic Key Derivation**: Generate consistent cryptographic keys from passkeys
 - 🛡️ **Type-Safe**: Full TypeScript support with comprehensive type definitions
-- 🧩 **Robust Error Handling**: Built on neverthrow for reliable monadic error handling
-- 📦 **Multiple Formats**: ESM and CommonJS builds included
-- 🔧 **Battle-Tested**: Uses SimpleWebAuthn for encoding/decoding utilities
-- 🌐 **Modern WebAuthn**: Built on the latest WebAuthn PRF extension
+- 🧩 **Monadic Error Handling**: Built on neverthrow for reliable functional error handling
+- 📦 **Universal Support**: ESM and CommonJS builds included
+- 🔧 **Battle-Tested**: Uses SimpleWebAuthn for WebAuthn encoding/decoding
+- 🌐 **Modern WebAuthn**: Built on the latest WebAuthn PRF extension specification
 
 ## Installation
 
+Install the package from npm:
+
 ```bash
 npm install prf-passkey
+```
+
+Or with yarn:
+
+```bash
+yarn add prf-passkey
 ```
 
 ## Quick Start
