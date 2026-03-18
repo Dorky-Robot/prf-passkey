@@ -1,6 +1,6 @@
 # PRF Passkey
 
-[![Discord](https://img.shields.io/discord/1483879594619568291?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/QSdjPhbU)
+[![Discord](https://img.shields.io/discord/1483879594619568291?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://dorkyrobot.com/discord)
 [![CI/CD](https://github.com/Dorky-Robot/prf-passkey/actions/workflows/ci.yml/badge.svg)](https://github.com/Dorky-Robot/prf-passkey/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Dorky-Robot/prf-passkey/branch/main/graph/badge.svg)](https://codecov.io/gh/Dorky-Robot/prf-passkey)
 [![npm version](https://badge.fury.io/js/prf-passkey.svg)](https://www.npmjs.com/package/prf-passkey)
